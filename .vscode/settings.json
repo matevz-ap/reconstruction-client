@@ -1,0 +1,9 @@
+// {  
+//     "liveServer.settings.https":   
+//     {
+//     "enable": true, //set it true to enable the feature.  
+//     "cert": "/Users/matevz/server.crt", //full path of the certificate  
+//     "key": "/Users/matevz/server.key", //full path of the private key  
+//     "passphrase": "pass"  
+//     }  
+// }   
