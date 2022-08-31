@@ -12,6 +12,7 @@
 <body class="m-0 w-100 h-100">
     <div id="container" class="m-0 w-100 h-100">
         <video autoplay="true" id="videoElement" class="m-0 w-100 h-100" style="object-fit: cover;"></video>
+        <span class="" id="image_counter"></span>
         <div class="row position-fixed bottom-0 w-100 mb-4">
             <div class="col-3 d-flex">
                 <button onclick="restart_reconstruction()" class="btn btn-danger rounded-pill m-auto"><i class="bi bi-trash-fill" style="font-size: 24px"></i></a>
@@ -20,17 +21,17 @@
                 <button onclick="take_photo()" class="btn btn-primary btn-lg w-100 p-2 rounded-pill"><i class="bi bi-camera-fill" style="font-size: 32px"></i></button>
             </div>
             <div class="col-3 d-flex">
-                <div class="dropdown-left m-auto">
+                <div class="dropdown m-auto">
                     <a class=" btn btn-primary dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-download" style="font-size: 24px"></i>
                     </a>
                     <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
-                        <li><p class="mb-0 p-2">Prenesi</p></li>
+                        <li><p class="mb-0 py-2 px-3">Prenesi</p></li>
                         <li><a class="dropdown-item" href="ply_viewer.html">.ply</a></li>
                         <li><a class="dropdown-item" onclick="downlaod_mvs()">.mvs</a></li>
                         <li><a class="dropdown-item" onclick="download_ptam()">PTAM</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <div class="mb p-2">
+                        <div class="mb py-2 px-3">
                             Shrani
                             <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Name">
                             <button class="btn btn-primary w-100" onclick="save_reconstruction()">Shrani</button>
@@ -119,6 +120,11 @@
             }
             localStorage.setItem('saved_reconstructions', JSON.stringify(saved_reconstructions));
             localStorage.removeItem("uuid");
+        }
+
+        function load_reconstruction() {
+            let selected_reconstruction = $("select_reconstruction").val();
+            localStorage.setItem("uuid", selected_reconstruction);
         }
     </script>
 </body>
