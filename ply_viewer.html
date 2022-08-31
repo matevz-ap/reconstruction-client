@@ -49,7 +49,7 @@
         const loader = new PLYLoader()
         let uuid = localStorage.getItem('uuid');
         loader.load(
-            "./opeka.ply",
+            "http://localhost:5000/download_ply",
             function (geometry) {
                 geometry.computeVertexNormals()
                 const mesh = new THREE.Mesh(geometry, material)

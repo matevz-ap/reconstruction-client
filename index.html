@@ -27,7 +27,7 @@
                     </a>
                     <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
                         <li><p class="mb-0 py-2 px-3">Prenesi</p></li>
-                        <li><a class="dropdown-item" href="ply_viewer.html">.ply</a></li>
+                        <li><a class="dropdown-item" onclick="downlaod_ply()">.ply</a></li>
                         <li><a class="dropdown-item" onclick="downlaod_mvs()">.mvs</a></li>
                         <li><a class="dropdown-item" onclick="download_ptam()">PTAM</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -69,7 +69,7 @@
                 if (uuid == null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://192.168.0.111:5000/init",
+                        url: "http://localhost:5000/init",
                         data: data,
                         processData: false,
                         contentType: false,
@@ -81,7 +81,7 @@
                 else {
                     $.ajax({
                         type: "POST",
-                        url: "http://192.168.0.111:5000/" + uuid + "/extend",
+                        url: "http://localhost:5000/" + uuid + "/extend",
                         data: data,
                         processData: false,
                         contentType: false,
@@ -98,12 +98,16 @@
             localStorage.removeItem("uuid");
         }
 
+        function downlaod_ply() {
+	        window.location.href = "http://localhost:5000/" + localStorage.getItem("uuid") + "/download_ply";
+        }
+
         function downlaod_mvs() {
-	        window.location.href = "http://192.168.0.111:5000/" + localStorage.getItem("uuid") + "/download_mvs";
+	        window.location.href = "http://localhost:5000/" + localStorage.getItem("uuid") + "/download_mvs";
         }
 
         function downlaod_ptam() {
-	        window.location.href = "http://192.168.0.111:5000/" + localStorage.getItem("uuid") + "/download_ptam";
+	        window.location.href = "http://localhost:5000/" + localStorage.getItem("uuid") + "/download_ptam";
         }
 
         function save_reconstruction() {
