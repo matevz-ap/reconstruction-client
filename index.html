@@ -14,9 +14,21 @@
         <video autoplay="true" id="videoElement" class="m-0 w-100 h-100" style="object-fit: cover;"></video>
         <div class="row position-fixed top-0 mt-3 w-100">
             <div class="col-3"></div>
-            <div class="col-6"></div>
+            <div class="col-6 text-center">
+                <div class="bg-danger bg-opacity-75 p-2 rounded-pill text-white" id="no_endpoint_error" style="display: none;"><i class="bi bi-exclamation-circle"></i> No endpoint set</div>
+            </div>
             <div class="col-3 text-end">
-                <a href="ply_viewer.html" class="btn btn-primary rounded-pill my-auto"><i class="bi bi-eye-fill" style="font-size: 24px;"></i></a>
+                <a href="ply_viewer.html" class="btn btn-primary rounded-pill"><i class="bi bi-eye-fill" style="font-size: 24px;"></i></a>
+                <div class="dropdown m-auto">
+                    <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear-fill" style="font-size: 24px;"></i></a>
+                    <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
+                        <div class="mb py-2 px-3">
+                            Nastavi endpoint
+                            <input type="text" name="name_input" id="recon_endpoint" class="form-control w-100 mb-2" placeholder="Url">
+                            <button class="btn btn-primary w-100" onclick="set_reconsturction_endpoint()">Shrani</button>
+                        </div>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row position-fixed bottom-0 w-100 mb-4">
@@ -39,7 +51,7 @@
                         <li><hr class="dropdown-divider"></li>
                         <div class="mb py-2 px-3">
                             Shrani
-                            <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Name">
+                            <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Ime">
                             <button class="btn btn-primary w-100" onclick="save_reconstruction()">Shrani</button>
                         </div>
                     </ul>
@@ -52,6 +64,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script> // Webcam
+        let endpoint = localStorage.getItem('recon_endpoint');
+        if (!endpoint) {
+            $("#no_endpoint_error").show();
+        }
         var video = document.querySelector("#videoElement");
         var imageCapture;
 
@@ -75,7 +91,7 @@
                 if (uuid == null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:5000/init",
+                        url: endpoint + "/init",
                         data: data,
                         processData: false,
                         contentType: false,
@@ -87,7 +103,7 @@
                 else {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:5000/" + uuid + "/extend",
+                        url: endpoint + "/" + uuid + "/extend",
                         data: data,
                         processData: false,
                         contentType: false,
@@ -105,15 +121,15 @@
         }
 
         function downlaod_ply() {
-	        window.location.href = "http://localhost:5000/" + localStorage.getItem("uuid") + "/download_ply";
+	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download_ply";
         }
 
         function downlaod_mvs() {
-	        window.location.href = "http://localhost:5000/" + localStorage.getItem("uuid") + "/download_mvs";
+	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download_mvs";
         }
 
         function downlaod_ptam() {
-	        window.location.href = "http://localhost:5000/" + localStorage.getItem("uuid") + "/download_ptam";
+	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download_ptam";
         }
 
         function save_reconstruction() {
@@ -135,6 +151,11 @@
         function load_reconstruction() {
             let selected_reconstruction = $("select_reconstruction").val();
             localStorage.setItem("uuid", selected_reconstruction);
+        }
+
+        function set_reconsturction_endpoint() {
+            localStorage.setItem("recon_endpoint", $("#recon_endpoint").val());
+            $("#no_endpoint_error").hide();
         }
     </script>
 </body>
