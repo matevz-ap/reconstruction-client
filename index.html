@@ -12,7 +12,13 @@
 <body class="m-0 w-100 h-100">
     <div id="container" class="m-0 w-100 h-100">
         <video autoplay="true" id="videoElement" class="m-0 w-100 h-100" style="object-fit: cover;"></video>
-        <span class="" id="image_counter"></span>
+        <div class="row position-fixed top-0 mt-3 w-100">
+            <div class="col-3"></div>
+            <div class="col-6"></div>
+            <div class="col-3 d-flex">
+                <a href="ply_viewer.html" class="btn btn-primary rounded-pill m-auto"><i class="bi bi-eye-fill" style="font-size: 24px;"></i></a>
+            </div>
+        </div>
         <div class="row position-fixed bottom-0 w-100 mb-4">
             <div class="col-3 d-flex">
                 <button onclick="restart_reconstruction()" class="btn btn-danger rounded-pill m-auto"><i class="bi bi-trash-fill" style="font-size: 24px"></i></a>
