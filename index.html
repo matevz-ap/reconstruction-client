@@ -127,6 +127,7 @@
                     $.ajax({
                         type: "POST",
                         url: endpoint + "/init",
+                        headers: {"ngrok-skip-browser-warning": true},
                         data: data,
                         processData: false,
                         contentType: false,
@@ -139,6 +140,7 @@
                     $.ajax({
                         type: "POST",
                         url: endpoint + "/" + uuid + "/extend",
+                        headers: {"ngrok-skip-browser-warning": true},
                         data: data,
                         processData: false,
                         contentType: false,

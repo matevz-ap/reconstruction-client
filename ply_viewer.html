@@ -53,6 +53,7 @@
         const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 
         const loader = new PLYLoader()
+        loader.requestHeader = {"ngrok-skip-browser-warning": true};
         let uuid = localStorage.getItem('uuid');
         loader.load(
             endpoint + "/" + uuid + "/download_ply",
