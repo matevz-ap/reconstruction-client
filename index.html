@@ -37,6 +37,12 @@
                             <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Ime">
                             <button class="btn btn-primary w-100" onclick="save_reconstruction()">Shrani</button>
                         </div>
+                        <div class="py-2 px-3">
+                            Nastavi
+                            <select name="load" id="load_recon" class="form-control">
+                                <option value="">None</option>
+                            </select>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -82,6 +88,19 @@
         if (!endpoint) {
             $("#no_endpoint_error").show();
         }
+
+        // load local reconstructions
+        for (const [key, value] of Object.entries(JSON.parse(localStorage.getItem('saved_reconstructions')))) {
+            $('#load_recon').append($('<option>').val(value).text(key))
+        }
+
+        $("#load_recon").on("change", function() {
+            let selected_reconstruction = $("#load_recon").val();
+            if (selected_reconstruction) {
+                localStorage.setItem("uuid", selected_reconstruction);
+            }
+        });
+
         var video = document.querySelector("#videoElement");
         var imageCapture;
 
@@ -160,11 +179,6 @@
             }
             localStorage.setItem('saved_reconstructions', JSON.stringify(saved_reconstructions));
             localStorage.removeItem("uuid");
-        }
-
-        function load_reconstruction() {
-            let selected_reconstruction = $("select_reconstruction").val();
-            localStorage.setItem("uuid", selected_reconstruction);
         }
 
         function set_reconsturction_endpoint() {
