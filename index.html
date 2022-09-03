@@ -90,8 +90,10 @@
         }
 
         // load local reconstructions
-        for (const [key, value] of Object.entries(JSON.parse(localStorage.getItem('saved_reconstructions')))) {
-            $('#load_recon').append($('<option>').val(value).text(key))
+        if(localStorage.getItem('saved_reconstructions')) {
+            for (const [key, value] of Object.entries(JSON.parse(localStorage.getItem('saved_reconstructions')))) {
+                $('#load_recon').append($('<option>').val(value).text(key))
+            }
         }
 
         $("#load_recon").on("change", function() {
