@@ -29,6 +29,16 @@
                         </div>
                     </ul>
                 </div>
+                <div class="dropdown m-auto">
+                    <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-archive-fill" style="font-size: 24px;"></i></a>
+                    <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
+                        <div class="mb py-2 px-3">
+                            Shrani
+                            <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Ime">
+                            <button class="btn btn-primary w-100" onclick="save_reconstruction()">Shrani</button>
+                        </div>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row position-fixed bottom-0 w-100 mb-4">
@@ -43,18 +53,22 @@
                     <a class=" btn btn-primary dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-download" style="font-size: 24px"></i>
                     </a>
-                    <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
-                        <li><p class="mb-0 py-2 px-3">Prenesi</p></li>
-                        <li><a class="dropdown-item" onclick="downlaod_ply()">.ply</a></li>
-                        <li><a class="dropdown-item" onclick="downlaod_mvs()">.mvs</a></li>
-                        <li><a class="dropdown-item" onclick="download_ptam()">PTAM</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <div class="mb py-2 px-3">
-                            Shrani
-                            <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Ime">
-                            <button class="btn btn-primary w-100" onclick="save_reconstruction()">Shrani</button>
+                    <div class="dropdown-menu">
+                        <div class="px-3">Prenesi</div>
+                        <div class="dropdown-divider"></div>
+                        <div class="row px-3">
+                            <div class="col-8 p-0"><a class="dropdown-item" onclick="downlaod_ply()">.ply</a></div>
+                            <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_ply()"><i class="bi bi-link-45deg"></i></a></div>
                         </div>
-                    </ul>
+                        <div class="row px-3">
+                            <div class="col-8 p-0"><a class="dropdown-item" onclick="downlaod_mvs()">.mvs</a></div>
+                            <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
+                        </div>
+                        <div class="row px-3">
+                            <div class="col-8 p-0"><a class="dropdown-item" onclick="download_ptam()">ptam</a></div>
+                            <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
