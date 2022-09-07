@@ -157,7 +157,6 @@
                             let myInterval = setInterval(() => {
                                 fetch(endpoint + "/results/" + res)
                                 .then(response => {
-                                    alert(response);
                                     if (response != "In progress") {
                                         data = response.json();
                                         if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
