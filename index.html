@@ -125,6 +125,7 @@
         }
 
         function take_photo() {
+            console.log("dsdadasdsd")
             imageCapture.takePhoto()
             .then(blob => {
                 var data = new FormData();
@@ -157,7 +158,7 @@
                             let myInterval = setInterval(() => {
                                 console.log(res)
                                 console.log(endpoint + "/results/" + res)
-                                fetch(endpoint + "/results/" + res)
+                                fetch(endpoint + "/results/" + res, {headers: {"ngrok-skip-browser-warning": true}})
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log(data)
