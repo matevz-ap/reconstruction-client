@@ -155,9 +155,13 @@
                         success: function(res) {
                             $("#spinner").show();
                             let myInterval = setInterval(() => {
+                                console.log(res)
+                                console.log(endpoint + "/results/" + res)
                                 fetch(endpoint + "/results/" + res)
                                 .then(response => response.json())
                                 .then(data => {
+                                    console.log(data)
+
                                     if (data.status == "finished") {
                                         if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
                                         else $("#results").removeClass("bg-success").addClass("bg-warning");
