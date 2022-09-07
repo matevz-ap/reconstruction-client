@@ -155,7 +155,7 @@
                         success: function(res) {
                             $("#spinner").show();
                             let myInterval = setInterval(() => {
-                                fetch("http://127.0.0.1:5000" + "/results/" + res)
+                                fetch(endpoint + "/results/" + res)
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.status == "finished") {
