@@ -154,10 +154,12 @@
                         contentType: false,
                         success: function(res) {
                             $("#spinner").show();
+                            alert(res);
                             let myInterval = setInterval(() => {
                                 fetch(endpoint + "/results/" + res)
                                 .then(response => {
                                     if (response != "In progress") {
+                                        data = response.json();
                                         if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
                                         else $("#results").removeClass("bg-success").addClass("bg-warning");
                                         $("#views").text(data.estimated_views + "/" + data.views);
