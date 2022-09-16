@@ -56,7 +56,7 @@
         loader.requestHeader = {"ngrok-skip-browser-warning": true};
         let uuid = localStorage.getItem('uuid');
         loader.load(
-            endpoint + "/" + uuid + "/download_ply",
+            endpoint + "/" + uuid + "/download/ply",
             function (geometry) {
                 geometry.computeVertexNormals()
                 const mesh = new THREE.Mesh(geometry, material)

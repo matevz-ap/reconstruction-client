@@ -54,6 +54,11 @@
                                 <option value="">None</option>
                             </select>
                         </div>
+                        <div class="py-2 px-3">
+                            Nastavi z uuid
+                            <input type="text" id="uuid_input" class="form-control" placeholder="uuid">
+                            <button class="btn btn-primary w-100 mt-2" onclick="set_uuid()">Nastavi</button>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -182,15 +187,15 @@
         }
 
         function downlaod_ply() {
-	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download_ply";
+	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/ply";
         }
 
         function downlaod_mvs() {
-	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download_mvs";
+	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/mvs";
         }
 
         function downlaod_ptam() {
-	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download_ptam";
+	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/ptam";
         }
 
         function save_reconstruction() {
@@ -207,6 +212,10 @@
             }
             localStorage.setItem('saved_reconstructions', JSON.stringify(saved_reconstructions));
             localStorage.removeItem("uuid");
+        }
+
+        function set_uuid() {
+            localStorage.setItem("uuid", $("#uuid_input").val());
         }
     </script>
 </body>
