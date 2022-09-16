@@ -184,6 +184,9 @@
 
         function restart_reconstruction() {
             localStorage.removeItem("uuid");
+            $("#views").text("0/0");
+            $("#vertices").text("Vertices: 0");
+            $("#faces").text("Faces: 0");
         }
 
         function downlaod_ply() {
