@@ -30,10 +30,6 @@
         const scene = new THREE.Scene()
         scene.add(new THREE.AxesHelper(5))
 
-        const light = new THREE.SpotLight()
-        light.position.set(20, 20, 20)
-        scene.add(light)
-
         const camera = new THREE.PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
@@ -50,7 +46,9 @@
         const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
        
-        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture");
+        const material = new THREE.MeshBasicMaterial({ map: texture });
+        texture.encoding = THREE.sRGBEncoding;
 
         const loader = new PLYLoader()
         loader.requestHeader = {"ngrok-skip-browser-warning": true};
@@ -60,7 +58,10 @@
             function (geometry) {
                 geometry.computeVertexNormals()
                 const mesh = new THREE.Mesh(geometry, material)
-                mesh.rotateX(-Math.PI / 2)
+                mesh.rotateX(-Math.PI);
+                mesh.scale.multiplyScalar(10);
+                mesh.translateX(2);
+                mesh.translateZ(-40);
                 scene.add(mesh)
             },
             (xhr) => {
