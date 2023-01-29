@@ -27,6 +27,8 @@
         import { PLYLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/PLYLoader.js';
         import Stats from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/libs/stats.module'
 
+        const uuid = localStorage.getItem('uuid');
+
         const scene = new THREE.Scene()
         scene.add(new THREE.AxesHelper(5))
 
@@ -52,7 +54,6 @@
 
         const loader = new PLYLoader()
         loader.requestHeader = {"ngrok-skip-browser-warning": true};
-        let uuid = localStorage.getItem('uuid');
         loader.load(
             endpoint + "/" + uuid + "/download/ply",
             function (geometry) {
@@ -87,11 +88,8 @@
 
         function animate() {
             requestAnimationFrame(animate)
-
             controls.update()
-
             render()
-
             stats.update()
         }
 
