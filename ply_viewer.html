@@ -19,14 +19,12 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script type="module">
-        let endpoint = "https://71a5-2a01-261-270-6d00-203b-b1a7-6cc1-3d87.eu.ngrok.io";
+        let endpoint = "https://olive-states-joke-93-103-68-166.loca.lt";
 
-        import "https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js";
         import * as THREE from "https://cdn.skypack.dev/three@0.132.2";
         import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls'
         import { PLYLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/PLYLoader.js';
-        import Stats from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/libs/stats.module'
-
+        
         const uuid = localStorage.getItem('uuid');
 
         const scene = new THREE.Scene()
@@ -47,26 +45,24 @@
 
         const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
-       
-        const texture_loader = new THREE.TextureLoader()
-        texture_loader.requestHeader = {"ngrok-skip-browser-warning": true};
-        const texture = texture_loader.load(endpoint + "/" + uuid + "/download/texture");
-        const material = new THREE.MeshBasicMaterial({ map: texture });
-        texture.encoding = THREE.sRGBEncoding;
 
-        const loader = new PLYLoader()
-        loader.requestHeader = {"ngrok-skip-browser-warning": true};
+        const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture",);
+        texture.encoding = THREE.sRGBEncoding;
+        const material = new THREE.MeshBasicMaterial({ map: texture });
+
+        const loader = new PLYLoader();
+        loader.requestHeader = {"Bypass-Tunnel-Reminder": true};
         loader.load(
             endpoint + "/" + uuid + "/download/ply",
             function (geometry) {
                 geometry.computeVertexNormals()
-                const mesh = new THREE.Mesh(geometry, material)
-                mesh.rotateX(-Math.PI);
-                mesh.scale.multiplyScalar(10);
-                mesh.translateX(2);
-                mesh.translateZ(-40);
-                scene.add(mesh)
-            },
+                    const mesh = new THREE.Mesh(geometry, material)
+                    mesh.rotateX(-Math.PI);
+                    mesh.scale.multiplyScalar(10);
+                    mesh.translateX(2);
+                    mesh.translateZ(-40);
+                    scene.add(mesh)
+                },
             (xhr) => {
                 let percent = Math.floor((xhr.loaded / xhr.total) * 100)
                 console.log(percent + '% loaded')
@@ -85,14 +81,10 @@
             render()
         }
 
-        const stats = Stats()
-        document.body.appendChild(stats.dom)
-
         function animate() {
             requestAnimationFrame(animate)
             controls.update()
             render()
-            stats.update()
         }
 
         function render() {
