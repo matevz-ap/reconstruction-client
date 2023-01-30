@@ -48,7 +48,9 @@
         const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
        
-        const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture");
+        const texture_loader = new THREE.TextureLoader()
+        texture_loader.requestHeader = {"ngrok-skip-browser-warning": true};
+        texture = texture_loader.load(endpoint + "/" + uuid + "/download/texture");
         const material = new THREE.MeshBasicMaterial({ map: texture });
         texture.encoding = THREE.sRGBEncoding;
 
