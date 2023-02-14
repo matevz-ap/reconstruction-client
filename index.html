@@ -40,6 +40,12 @@
                         </div>
                     </ul>
                 </div> -->
+                <div class="mt-2">
+                    <button class="btn btn-primary rounded-pill" onclick="reconstruct_mesh"><i class="bi bi-box" style="font-size: 24px;"></i></button>
+                </div>
+                <div class="mt-2">
+                    <button class="btn btn-primary rounded-pill" onclick="texture"><i class="bi bi-paint-bucket" style="font-size: 24px;"></i></button>
+                </div>
                 <div class="dropdown m-auto">
                     <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-archive-fill" style="font-size: 24px;"></i></a>
                     <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
@@ -100,7 +106,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script> // Webcam
-        let endpoint = "https://71a5-2a01-261-270-6d00-203b-b1a7-6cc1-3d87.eu.ngrok.io";
+        let endpoint = "https://three-pots-repair-93-103-68-166.loca.lt";
 
         // load local reconstructions
         if(localStorage.getItem('saved_reconstructions')) {
@@ -141,7 +147,7 @@
                     $.ajax({
                         type: "POST",
                         url: endpoint + "/init",
-                        headers: {"ngrok-skip-browser-warning": true},
+                        headers: {"Bypass-Tunnel-Reminder": true},
                         data: data,
                         processData: false,
                         contentType: false,
@@ -154,14 +160,14 @@
                     $.ajax({
                         type: "POST",
                         url: endpoint + "/" + uuid + "/extend",
-                        headers: {"ngrok-skip-browser-warning": true},
+                        headers: {"Bypass-Tunnel-Reminder": true},
                         data: data,
                         processData: false,
                         contentType: false,
                         success: function(res) {
                             $("#spinner").show();
                             let myInterval = setInterval(() => {
-                                fetch(endpoint + "/results/" + res, {headers: {"ngrok-skip-browser-warning": true}})
+                                fetch(endpoint + "/results/" + res, {headers: {"Bypass-Tunnel-Reminder": true}})
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.status == "finished") {
@@ -187,6 +193,14 @@
             $("#views").text("0/0");
             $("#vertices").text("Vertices: 0");
             $("#faces").text("Faces: 0");
+        }
+
+        function recunstruct_mesh() {
+            fetch(endpoint + "/" + localStorage.getItem("uuid") + "/reconstruct_mesh", {headers: {"Bypass-Tunnel-Reminder": true}})
+        }
+
+        function texture() {
+            fetch(endpoint + "/" + localStorage.getItem("uuid") + "/texture", {headers: {"Bypass-Tunnel-Reminder": true}})
         }
 
         function downlaod_ply() {
