@@ -16,8 +16,8 @@
             <div class="col-5 text-center">
                 <div id="results" class="text-center mx-3 p-2 bg-primary text-white rounded">
                     <h2 id="views" class="mb-1">0/0</h1>
-                    <div id="vertices">Vertices: 0</div>
-                    <div id="faces">Tracks: 0</div>
+                    <div id="tracks">Tracks: 0</div>
+                    <div id="estimated_tracks">Estimated tracks: 0</div>
                 </div>
                 <div id="spinner" class="justify-content-center mt-3 text-primary" style="display: none">
                     <div class="spinner-border" role="status">
@@ -174,8 +174,8 @@
                                         if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
                                         else $("#results").removeClass("bg-success").addClass("bg-warning");
                                         $("#views").text(data.estimated_views + "/" + data.views);
-                                        $("#vertices").text("Vertices: " + data.vertices);
-                                        $("#faces").text("Faces: " + data.faces);
+                                        $("#tracks").text("Tracks: " + data.tracks);
+                                        $("#estimated_tracks").text("Estimated tracks: " + data.estimated_tracks);
                                         clearInterval(myInterval);
                                         $("#spinner").hide();
                                     }
