@@ -46,8 +46,7 @@
         const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
 
-        //const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture",);
-        const texture = new THREE.TextureLoader().load("grad.png");
+        const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture",);
         texture.encoding = THREE.sRGBEncoding;
         const material = new THREE.MeshBasicMaterial({ map: texture });
 
