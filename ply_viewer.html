@@ -46,15 +46,14 @@
         const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
 
-        const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture",);
+        const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture");
         texture.encoding = THREE.sRGBEncoding;
         const material = new THREE.MeshBasicMaterial({ map: texture });
 
         const loader = new PLYLoader();
         loader.requestHeader = {"Bypass-Tunnel-Reminder": true};
         loader.load(
-            //endpoint + "/" + uuid + "/download/ply",
-            "grad.ply",
+            endpoint + "/" + uuid + "/download/ply",
             function (geometry) {
                 geometry.computeVertexNormals()
                     const mesh = new THREE.Mesh(geometry, material)
