@@ -56,12 +56,12 @@
             endpoint + "/" + uuid + "/download/ply",
             function (geometry) {
                 geometry.computeVertexNormals()
-                    const mesh = new THREE.Mesh(geometry, material)
-                    mesh.rotateX(-Math.PI);
-                    mesh.scale.multiplyScalar(10);
-                    mesh.translateX(2);
-                    mesh.translateZ(-40);
-                    scene.add(mesh)
+                const mesh = new THREE.Mesh(geometry, material)
+                mesh.rotateX(-Math.PI);
+                mesh.scale.multiplyScalar(10);
+                mesh.translateX(2);
+                mesh.translateZ(-40);
+                scene.add(mesh);
                 },
             (xhr) => {
                 let percent = Math.floor((xhr.loaded / xhr.total) * 100)

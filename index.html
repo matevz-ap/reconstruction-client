@@ -69,32 +69,37 @@
                 </div>
             </div>
         </div>
-        <div class="row position-fixed bottom-0 w-100 mb-4">
-            <div class="col-3 d-flex">
-                <button onclick="restart_reconstruction()" class="btn btn-danger rounded-pill m-auto"><i class="bi bi-trash-fill" style="font-size: 24px"></i></a>
+        <div class="position-fixed bottom-0 w-100 mb-4">
+            <div class="text-center mb-3">
+                <span class="p-2 text-primary bg-white rounded" id="uuid">no uuid</span>
             </div>
-            <div class="col-6">
-                <button onclick="take_photo()" class="btn btn-primary btn-lg w-100 p-2 rounded-pill"><i class="bi bi-camera-fill" style="font-size: 32px"></i></button>
-            </div>
-            <div class="col-3 d-flex">
-                <div class="dropdown m-auto">
-                    <a class=" btn btn-primary dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-download" style="font-size: 24px"></i>
-                    </a>
-                    <div class="dropdown-menu">
-                        <div class="px-3">Prenesi</div>
-                        <div class="dropdown-divider"></div>
-                        <div class="row px-3">
-                            <div class="col-8 p-0"><a class="dropdown-item" onclick="downlaod_ply()">.ply</a></div>
-                            <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_ply()"><i class="bi bi-link-45deg"></i></a></div>
-                        </div>
-                        <div class="row px-3">
-                            <div class="col-8 p-0"><a class="dropdown-item" onclick="downlaod_mvs()">.mvs</a></div>
-                            <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
-                        </div>
-                        <div class="row px-3">
-                            <div class="col-8 p-0"><a class="dropdown-item" onclick="download_ptam()">ptam</a></div>
-                            <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
+            <div class="row">
+                <div class="col-3 d-flex">
+                    <button onclick="restart_reconstruction()" class="btn btn-danger rounded-pill m-auto"><i class="bi bi-trash-fill" style="font-size: 24px"></i></a>
+                </div>
+                <div class="col-6">
+                    <button onclick="take_photo()" class="btn btn-primary btn-lg w-100 p-2 rounded-pill"><i class="bi bi-camera-fill" style="font-size: 32px"></i></button>
+                </div>
+                <div class="col-3 d-flex">
+                    <div class="dropdown m-auto">
+                        <a class=" btn btn-primary dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-download" style="font-size: 24px"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="px-3">Prenesi</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="row px-3">
+                                <div class="col-8 p-0"><a class="dropdown-item" onclick="downlaod_ply()">.ply</a></div>
+                                <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_ply()"><i class="bi bi-link-45deg"></i></a></div>
+                            </div>
+                            <div class="row px-3">
+                                <div class="col-8 p-0"><a class="dropdown-item" onclick="downlaod_mvs()">.mvs</a></div>
+                                <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
+                            </div>
+                            <div class="row px-3">
+                                <div class="col-8 p-0"><a class="dropdown-item" onclick="download_ptam()">ptam</a></div>
+                                <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,6 +118,10 @@
             for (const [key, value] of Object.entries(JSON.parse(localStorage.getItem('saved_reconstructions')))) {
                 $('#load_recon').append($('<option>').val(value).text(key))
             }
+        }
+
+        if (localStorage.getItem('uuid')) {
+            $("#uuid").html(localStorage.getItem('uuid'))
         }
 
         $("#load_recon").on("change", function() {
@@ -136,7 +145,6 @@
         }
 
         function take_photo() {
-            console.log("dsdadasdsd")
             imageCapture.takePhoto()
             .then(blob => {
                 var data = new FormData();
@@ -153,6 +161,7 @@
                         contentType: false,
                         success: function(res) {
                             localStorage.setItem('uuid', res);
+                            $("#uuid").html(res);
                         }
                     });
                 }
@@ -193,6 +202,7 @@
             $("#views").text("0/0");
             $("#vertices").text("Vertices: 0");
             $("#faces").text("Faces: 0");
+            $("#uuid").html("no uuid")
         }
 
         function recunstruct_mesh() {
