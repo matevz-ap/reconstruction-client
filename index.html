@@ -202,7 +202,7 @@
             $("#views").text("0/0");
             $("#vertices").text("Vertices: 0");
             $("#faces").text("Faces: 0");
-            $("#uuid").html("no uuid")
+            $("#uuid").html("no uuid");
         }
 
         function recunstruct_mesh() {
@@ -243,6 +243,7 @@
 
         function set_uuid() {
             localStorage.setItem("uuid", $("#uuid_input").val());
+            $("#uuid").html($("#uuid_input").val());
         }
     </script>
 </body>
