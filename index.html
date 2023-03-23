@@ -41,7 +41,14 @@
                     </ul>
                 </div> -->
                 <div class="mt-2">
-                    <button class="btn btn-primary rounded-pill" onclick="reconstruct_mesh()"><i class="bi bi-box" style="font-size: 24px;"></i></button>
+                    <div class="dropdown m-auto">
+                        <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-camera" style="font-size: 24px;"></i></button>
+                        <div class="dropdown-menu p-3" style="min-width: 200px; max-width: 200px;">
+                            <label>Focal</label>
+                            <input type="text" name="focal" class="form-control" id="focal" placeholder="4200">
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="dropdown m-auto">
                     <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-archive-fill" style="font-size: 24px;"></i></a>
@@ -146,6 +153,7 @@
             .then(blob => {
                 var data = new FormData();
                 data.append('image', blob);
+                data.append('focal', $("#focal").val())
                 
                 let uuid = localStorage.getItem('uuid');
                 if (uuid == null) {
