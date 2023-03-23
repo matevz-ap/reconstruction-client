@@ -29,7 +29,7 @@
                 <div class="bg-danger bg-opacity-75 p-2 rounded-pill text-white" id="no_endpoint_error" style="display: none;"><i class="bi bi-exclamation-circle"></i> No endpoint set</div>
             </div>
             <div class="col-3 text-end">
-                <a href="ply_viewer.html" class="btn btn-primary rounded-pill"><i class="bi bi-eye-fill" style="font-size: 24px;"></i></a>
+                <a href="loading_ply.html" class="btn btn-primary rounded-pill"><i class="bi bi-eye-fill" style="font-size: 24px;"></i></a>
                 <!-- <div class="dropdown m-auto">
                     <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear-fill" style="font-size: 24px;"></i></a>
                     <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
@@ -42,9 +42,6 @@
                 </div> -->
                 <div class="mt-2">
                     <button class="btn btn-primary rounded-pill" onclick="reconstruct_mesh()"><i class="bi bi-box" style="font-size: 24px;"></i></button>
-                </div>
-                <div class="mt-2">
-                    <button class="btn btn-primary rounded-pill" onclick="texture()"><i class="bi bi-paint-bucket" style="font-size: 24px;"></i></button>
                 </div>
                 <div class="dropdown m-auto">
                     <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-archive-fill" style="font-size: 24px;"></i></a>
@@ -198,6 +195,9 @@
         }
 
         function restart_reconstruction() {
+            if(!confirm('Are you sure you want to discrad this reconstruction?')) {
+                return
+            }
             localStorage.removeItem("uuid");
             $("#views").text("0/0");
             $("#vertices").text("Vertices: 0");
@@ -207,10 +207,6 @@
 
         function recunstruct_mesh() {
             fetch(endpoint + "/" + localStorage.getItem("uuid") + "/reconstruct_mesh", {headers: {"Bypass-Tunnel-Reminder": true}})
-        }
-
-        function texture() {
-            fetch(endpoint + "/" + localStorage.getItem("uuid") + "/texture", {headers: {"Bypass-Tunnel-Reminder": true}})
         }
 
         function downlaod_ply() {
