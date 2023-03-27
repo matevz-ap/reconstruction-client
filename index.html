@@ -26,10 +26,14 @@
                 </div>
             </div>
             <div class="col-4 text-center">
-                <div class="bg-danger bg-opacity-75 p-2 rounded-pill text-white" id="no_endpoint_error" style="display: none;"><i class="bi bi-exclamation-circle"></i> No endpoint set</div>
             </div>
             <div class="col-3 text-end">
-                <a href="loading_ply.html" class="btn btn-primary rounded-pill"><i class="bi bi-eye-fill" style="font-size: 24px;"></i></a>
+                <div id="endpoint_status">
+                    <span class="bg-light rounded-pill py-1 px-2"><i class="bi bi-x-circle text-danger"></i> offline</span>
+                </div>
+                <div class="mt-2">
+                    <a href="loading_ply.html" class="btn btn-primary rounded-pill"><i class="bi bi-eye-fill" style="font-size: 24px;"></i></a>
+                </div>
                 <!-- <div class="dropdown m-auto">
                     <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear-fill" style="font-size: 24px;"></i></a>
                     <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
@@ -45,10 +49,10 @@
                         <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-camera" style="font-size: 24px;"></i></button>
                         <div class="dropdown-menu p-3" style="min-width: 200px; max-width: 200px;">
                             <label>Focal</label>
-                            <input type="text" name="focal" class="form-control" id="focal" placeholder="4200">
+                            <input type="text" name="focal" class="form-control mb-2" id="focal" placeholder="4200">
+                            <button type="button" class="btn btn-primary w-100" onclick="set_focal()">Nastavi</button>
                         </div>
                     </div>
-                    
                 </div>
                 <div class="dropdown m-auto">
                     <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-archive-fill" style="font-size: 24px;"></i></a>
@@ -128,6 +132,10 @@
             $("#uuid").html(localStorage.getItem('uuid'))
         }
 
+        if (localStorage.getItem('focal')) {
+            $("#focal").val(localStorage.getItem('focal'))
+        }
+
         $("#load_recon").on("change", function() {
             let selected_reconstruction = $("#load_recon").val();
             if (selected_reconstruction) {
@@ -153,7 +161,7 @@
             .then(blob => {
                 var data = new FormData();
                 data.append('image', blob);
-                data.append('focal', $("#focal").val())
+                data.append('focal', localStorage.getItem('focal'));
                 
                 let uuid = localStorage.getItem('uuid');
                 if (uuid == null) {
@@ -249,6 +257,22 @@
             localStorage.setItem("uuid", $("#uuid_input").val());
             $("#uuid").html($("#uuid_input").val());
         }
+
+        function set_focal() {
+            localStorage.setItem("focal", $("#focal").val());
+        }
+
+        fetch(endpoint + "/online")
+        .then(response => {
+            if (response.status == 200) {
+                $("#endpoint_status").html('<span class="bg-light rounded-pill py-1 px-2"><i class="bi bi-check-circle text-success"></i> online</span>')
+            } else {
+                $("#endpoint_status").html('<span class="bg-light rounded-pill py-1 px-2"><i class="bi bi-x-circle text-danger"></i> offline</span>')
+            }
+        })
+        .catch(error => $("#endpoint_status").html('<span class="bg-light rounded-pill py-1 px-2"><i class="bi bi-x-circle text-danger"></i> offline</span>'));
+
+        endpoint
     </script>
 </body>
 </html>
