@@ -97,20 +97,20 @@
                             <div class="px-3">Prenesi</div>
                             <div class="dropdown-divider"></div>
                             <div class="row px-3">
-                                <div class="col-8 p-0"><a class="dropdown-item" id="download_ply" onclick="downlaod_ply()">.ply</a></div>
+                                <div class="col-8 p-0"><a class="dropdown-item" id="download_ply" onclick="download_file()" data-file="ply">.ply</a></div>
                                 <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_ply()"><i class="bi bi-link-45deg"></i></a></div>
                             </div>
                             <div class="row px-3">
-                                <div class="col-8 p-0"><a class="dropdown-item" id="download_texture" onclick="downlaod_texture()">texture</a></div>
+                                <div class="col-8 p-0"><a class="dropdown-item" id="download_texture" onclick="download_file()" data-file="texture">texture</a></div>
                                 <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_texture()"><i class="bi bi-link-45deg"></i></a></div>
                             </div>
                             <div class="row px-3">
-                                <div class="col-8 p-0"><a class="dropdown-item" id="download_scene" onclick="downlaod_mvs()">.mvs</a></div>
+                                <div class="col-8 p-0"><a class="dropdown-item" id="download_scene" onclick="download_file()" data-file="mvs">.mvs</a></div>
                                 <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
                             </div>
                             <div class="row px-3">
-                                <div class="col-8 p-0"><a class="dropdown-item" id="download_ptam" onclick="download_ptam()">ptam</a></div>
-                                <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
+                                <div class="col-8 p-0"><a class="dropdown-item" id="download_ptam" onclick="download_file()" data-file="ptam">ptam</a></div>
+                                <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="download_ptam()"><i class="bi bi-link-45deg"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -231,20 +231,8 @@
             fetch(endpoint + "/" + localStorage.getItem("uuid") + "/reconstruct_mesh", {headers: {"Bypass-Tunnel-Reminder": true}})
         }
 
-        function downlaod_ply() {
-	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/ply";
-        }
-
-        function downlaod_texture() {
-	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/texture";
-        }
-
-        function downlaod_mvs() {
-	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/mvs";
-        }
-
-        function downlaod_ptam() {
-	        window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/ptam";
+        function download_file() {
+            window.location.href = endpoint + "/" + localStorage.getItem("uuid") + "/download/" + event.srcElement.dataset.file;
         }
 
         function save_reconstruction() {
@@ -305,7 +293,7 @@
             .then(response => response.json())
             .then(data => display_status(data, "#download_texture"))
 
-            fetch(endpoint + "/" + localStorage.getItem('uuid') + "/file_availability/ptam", {"headers": {"Bypass-Tunnel-Reminder": true}})
+            fetch(endpoint + "/" + localStorage.getItem('uuid') + "/file_availability/installer", {"headers": {"Bypass-Tunnel-Reminder": true}})
             .then(response => response.json())
             .then(data => display_status(data, "#download_ptam"))
         }
