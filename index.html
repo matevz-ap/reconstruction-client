@@ -75,6 +75,9 @@
                         </div>
                     </ul>
                 </div>
+                <div class="mt-2">
+                    <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false" onclick="generate_ptam()"><i class="bi bi-headset-vr" style="font-size: 24px;"></i></button>
+                </div>
             </div>
         </div>
         <div class="position-fixed bottom-0 w-100 mb-4">
@@ -229,6 +232,10 @@
 
         function recunstruct_mesh() {
             fetch(endpoint + "/" + localStorage.getItem("uuid") + "/reconstruct_mesh", {headers: {"Bypass-Tunnel-Reminder": true}})
+        }
+
+        function generate_ptam() {
+            fetch(endpoint + "/" + localStorage.getItem("uuid") + "/generate/ptam", {headers: {"Bypass-Tunnel-Reminder": true}})
         }
 
         function download_file() {
