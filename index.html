@@ -45,12 +45,20 @@
                     </ul>
                 </div> -->
                 <div class="mt-2">
+                    <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false" onclick="generate_ptam()"><i class="bi bi-headset-vr" style="font-size: 24px;"></i></button>
+                </div>
+                <div class="mt-4">
                     <div class="dropdown m-auto">
-                        <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-camera" style="font-size: 24px;"></i></button>
+                        <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-camera" style="font-size: 24px;"></i>
+                            <span class="position-absolute top-0 end-10 translate-middle badge rounded-pill bg-light text-dark" id="focal_value">
+                                <span class="text-danger">no focal</span>
+                            </span>
+                        </button>
                         <div class="dropdown-menu p-3" style="min-width: 200px; max-width: 200px;">
                             <label>Focal</label>
                             <input type="text" name="focal" class="form-control mb-2" id="focal" placeholder="4200">
-                            <button type="button" class="btn btn-primary w-100" onclick="set_focal()">Nastavi</button>
+                            <button type="button" class="btn btn-primary w-100 position-relative" onclick="set_focal()">Nastavi</button>
                         </div>
                     </div>
                 </div>
@@ -74,9 +82,6 @@
                             <button class="btn btn-primary w-100 mt-2" onclick="set_uuid()">Nastavi</button>
                         </div>
                     </ul>
-                </div>
-                <div class="mt-2">
-                    <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false" onclick="generate_ptam()"><i class="bi bi-headset-vr" style="font-size: 24px;"></i></button>
                 </div>
             </div>
         </div>
@@ -141,7 +146,11 @@
         }
 
         if (localStorage.getItem('focal')) {
-            $("#focal").val(localStorage.getItem('focal'))
+            let focal = localStorage.getItem('focal');
+            $("#focal").val(focal)
+            if (focal) {
+                $("#focal_value").html(focal)
+            }
         }
 
         $("#load_recon").on("change", function() {
@@ -266,6 +275,7 @@
 
         function set_focal() {
             localStorage.setItem("focal", $("#focal").val());
+            $("#focal_value").html($("#focal").val());
         }
 
         fetch(endpoint + "/online", {"headers": {"Bypass-Tunnel-Reminder": true}})
