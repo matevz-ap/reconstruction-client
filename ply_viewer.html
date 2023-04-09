@@ -58,9 +58,9 @@
                 geometry.computeVertexNormals()
                 const mesh = new THREE.Mesh(geometry, material)
                 mesh.rotateX(-Math.PI);
+                mesh.rotateZ(Math.PI / 2);
                 mesh.scale.multiplyScalar(10);
-                mesh.translateX(2);
-                mesh.translateZ(-40);
+                mesh.translateZ(-30);
                 scene.add(mesh);
                 },
             (xhr) => {
