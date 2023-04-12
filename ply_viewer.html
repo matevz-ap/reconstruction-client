@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script type="module">
-        let endpoint = "https://testing-reconstruction-drain.loca.lt";
+        let endpoint = "https://testing-reconstruction-drainn.loca.lt";
 
         import * as THREE from "https://cdn.skypack.dev/three@0.132.2";
         import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls'
@@ -27,16 +27,17 @@
         
         const uuid = localStorage.getItem('uuid');
 
-        const scene = new THREE.Scene()
-        scene.add(new THREE.AxesHelper(5))
-
+        const canvas = document.querySelector("#canvas");
+        const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
             0.1,
             1000
-        )
-        camera.position.z = 40
+        );
+        camera.position.z = 40;
+
+        scene.add(new THREE.AxesHelper(5))
 
         const renderer = new THREE.WebGLRenderer()
         renderer.outputEncoding = THREE.sRGBEncoding
@@ -46,32 +47,59 @@
         const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
 
-        const texture = new THREE.TextureLoader().load(endpoint + "/" + uuid + "/download/texture");
-        texture.encoding = THREE.sRGBEncoding;
-        const material = new THREE.MeshBasicMaterial({ map: texture });
+        const ply_loader = new PLYLoader();
+        ply_loader.requestHeader = {"Bypass-Tunnel-Reminder": true};
 
-        const loader = new PLYLoader();
-        loader.requestHeader = {"Bypass-Tunnel-Reminder": true};
-        loader.load(
+        ply_loader.load(
             endpoint + "/" + uuid + "/download/ply",
             function (geometry) {
-                geometry.computeVertexNormals()
+                geometry.computeVertexNormals();
+                let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
                 const mesh = new THREE.Mesh(geometry, material)
+
                 mesh.rotateX(-Math.PI);
                 mesh.rotateZ(Math.PI / 2);
                 mesh.scale.multiplyScalar(10);
                 mesh.translateZ(-30);
                 scene.add(mesh);
-                },
-            (xhr) => {
-                let percent = Math.floor((xhr.loaded / xhr.total) * 100)
-                console.log(percent + '% loaded')
-                $(".progress-bar").css("width", percent + "%").prop('aria-valuenow', percent)
+
+                const fileLoader = new THREE.FileLoader();
+                const textureLoader = new THREE.TextureLoader();
+
+                fileLoader.requestHeader = {"Bypass-Tunnel-Reminder": true};
+                fileLoader.setResponseType('blob');
+                fileLoader.load(
+                    endpoint + "/" + uuid + "/download/texture",
+                    (textureData) => {
+                        const image = new Image();
+                        image.src = URL.createObjectURL(new Blob([textureData]));;
+                        const textureLoader = new THREE.TextureLoader();
+                        const texture = textureLoader.load(image.src);
+                        
+                        material.map = texture;
+                        material.color.set(0xffffff);
+                        material.needsUpdate = true;
+                        texture.encoding = THREE.sRGBEncoding;
+                        
+                        $(".progress-bar").css("width", "100%");
+                    },
+                    (xhr) => {
+                        let percent = (xhr.loaded / xhr.total) * 100;
+                        console.log(`${percent}% loaded`);
+                        $(".progress-bar").css("width", percent + "%").prop('aria-valuenow', percent)
+                    },
+                    (err) => {
+                        console.error('An error happened while loading the texture:', err);
+                    }
+                );
             },
-            (error) => {
-                console.log(error)
+            (xhr) => {
+                console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
+            },
+            (err) => {
+                console.error('An error happened while loading the PLY file:', err);
             }
-        )
+        );
 
         window.addEventListener('resize', onWindowResize, false)
         function onWindowResize() {
@@ -82,16 +110,10 @@
         }
 
         function animate() {
-            requestAnimationFrame(animate)
-            controls.update()
-            render()
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
         }
-
-        function render() {
-            renderer.render(scene, camera)
-        }
-
-        animate()
+        animate();
     </script>
 </body>
 
