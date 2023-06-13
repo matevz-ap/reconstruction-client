@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 <body class="m-0 w-100 h-100">
-    <div id="container" class="m-0 w-100 h-100">
+    <div id="container" class="m-0 w-100 h-100 position-relative">
         <video autoplay="true" id="videoElement" class="m-0 w-100 h-100" style="object-fit: cover;" autoplay loop muted playsinline></video>
         <div class="row position-fixed top-0 mt-3 w-100" style="z-index: 2">
             <div class="col-5 text-center">
@@ -125,7 +125,31 @@
                 </div>
             </div>
         </div>
+        <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions" id="inst_move">
+            <i class="bi bi-fullscreen" style="font-size: 7em"></i>
+            <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
+                Click on the camera icon to take first photo
+            </div>
+        </div>
+        <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions" id="inst_second" style="display: none">
+            <div class="text-center">
+                <i class="bi bi-camera h1"></i>
+            </div>
+            <i class="bi bi-arrow-left h1 me-5"></i>
+            <i class="bi bi-arrow-right h1"></i>
+            <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
+                Move left or right one step and take a photo
+            </div>
+        </div>
+        <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions" id="inst_keep" style="display: none">
+            <i class="bi bi-arrow-left h1 me-5"></i>
+            <i class="bi bi-arrow-right h1"></i>
+            <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
+                Keep moving around the object step by step taking photos
+            </div>
+        </div>
     </div>
+    
     <canvas id="canvas" style="width: 100%; height: 100%" hidden></canvas>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
@@ -133,6 +157,11 @@
     <script src="https://unpkg.com/htmx.org@1.8.6"></script>
     <script> // Webcam
         let endpoint = "https://testing-reconstruction-drainn.loca.lt";
+
+        function show_instructions(id) {
+            $(".instructions").hide();
+            $(id).show();
+        }
 
         // load local reconstructions
         if(localStorage.getItem('saved_reconstructions')) {
@@ -142,7 +171,8 @@
         }
 
         if (localStorage.getItem('uuid')) {
-            $("#uuid").html(localStorage.getItem('uuid'))
+            $("#uuid").html(localStorage.getItem('uuid'));
+            show_instructions("#inst_keep");
         }
 
         if (localStorage.getItem('focal')) {
@@ -194,6 +224,7 @@
                             $("#uuid").html(res);
                         }
                     });
+                    show_instructions("#inst_second");
                 }
                 else {
                     $.ajax({
@@ -222,6 +253,7 @@
                             }, 3000)
                         }
                     });
+                    show_instructions("#inst_keep");
                 }
             })
             .catch(error => ChromeSamples.log(error));
@@ -237,6 +269,7 @@
             $("#faces").text("Faces: 0");
             $("#uuid").html("no uuid");
             get_file_statuses();
+            show_instructions("#inst_move");
         }
 
         function recunstruct_mesh() {
@@ -271,6 +304,7 @@
             localStorage.setItem("uuid", $("#uuid_input").val());
             $("#uuid").html($("#uuid_input").val());
             get_file_statuses();
+            show_instructions("#inst_keep");
         }
 
         function set_focal() {
