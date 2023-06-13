@@ -16,8 +16,8 @@
             <div class="col-5 text-center">
                 <div id="results" class="text-center mx-3 p-2 bg-primary text-white rounded">
                     <h2 id="views" class="mb-1">0/0</h1>
-                    <div id="tracks">Tracks: 0</div>
-                    <div id="estimated_tracks">Estimated tracks: 0</div>
+                    <div id="tracks">Vozlišča: 0</div>
+                    <div id="estimated_tracks">Ploskve: 0</div>
                 </div>
                 <div id="spinner" class="justify-content-center mt-3 text-primary" style="display: none">
                     <div class="spinner-border" role="status">
@@ -244,8 +244,8 @@
                                         if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
                                         else $("#results").removeClass("bg-success").addClass("bg-warning");
                                         $("#views").text(data.estimated_views + "/" + data.views);
-                                        $("#tracks").text("Tracks: " + data.tracks);
-                                        $("#estimated_tracks").text("Estimated tracks: " + data.estimated_tracks);
+                                        $("#tracks").text("Vozlišča: " + data.vertices);
+                                        $("#estimated_tracks").text("Ploskve: " + data.faces);
                                         clearInterval(myInterval);
                                         $("#spinner").hide();
                                     }
@@ -265,8 +265,8 @@
             }
             localStorage.removeItem("uuid");
             $("#views").text("0/0");
-            $("#vertices").text("Vertices: 0");
-            $("#faces").text("Faces: 0");
+            $("#vertices").text("Vozlišča: 0");
+            $("#faces").text("Ploskve: 0");
             $("#uuid").html("no uuid");
             get_file_statuses();
             show_instructions("#inst_move");
