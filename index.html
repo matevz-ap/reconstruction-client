@@ -24,6 +24,11 @@
                       <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
+                <div id="spinner2" class="justify-content-center mt-3 text-info" style="display: none">
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
             <div class="col-3 text-center">
             </div>
@@ -212,6 +217,7 @@
                 
                 let uuid = localStorage.getItem('uuid');
                 if (uuid == null) {
+                    $("#spinner2").show();
                     $.ajax({
                         type: "POST",
                         url: endpoint + "/init",
@@ -220,6 +226,7 @@
                         processData: false,
                         contentType: false,
                         success: function(res) {
+                            $("#spinner2").hide();
                             localStorage.setItem('uuid', res);
                             $("#uuid").html(res);
                         }
@@ -227,6 +234,7 @@
                     show_instructions("#inst_second");
                 }
                 else {
+                    $("#spinner2").show();
                     $.ajax({
                         type: "POST",
                         url: endpoint + "/" + uuid + "/extend",
@@ -235,6 +243,7 @@
                         processData: false,
                         contentType: false,
                         success: function(res) {
+                            $("#spinner2").hide();
                             $("#spinner").show();
                             let myInterval = setInterval(() => {
                                 fetch(endpoint + "/results/" + res, {headers: {"Bypass-Tunnel-Reminder": true}})
