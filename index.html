@@ -16,8 +16,8 @@
             <div class="col-5 text-center">
                 <div id="results" class="text-center mx-3 p-2 bg-primary text-white rounded">
                     <h2 id="views" class="mb-1">0/0</h1>
-                    <div id="tracks">Vozlišča: 0</div>
-                    <div id="estimated_tracks">Ploskve: 0</div>
+                    <div id="tracks">Vertices: 0</div>
+                    <div id="estimated_tracks">Faces: 0</div>
                 </div>
                 <div id="spinner" class="justify-content-center mt-3 text-primary" style="display: none">
                     <div class="spinner-border" role="status">
@@ -58,7 +58,7 @@
                         <div class="dropdown-menu p-3" style="min-width: 200px; max-width: 200px;">
                             <label>Focal</label>
                             <input type="text" name="focal" class="form-control mb-2" id="focal" placeholder="4200">
-                            <button type="button" class="btn btn-primary w-100 position-relative" onclick="set_focal()">Nastavi</button>
+                            <button type="button" class="btn btn-primary w-100 position-relative" onclick="set_focal()">Save</button>
                         </div>
                     </div>
                 </div>
@@ -66,20 +66,20 @@
                     <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-archive-fill" style="font-size: 24px;"></i></a>
                     <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
                         <div class="mb py-2 px-3">
-                            Shrani
+                            Save
                             <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Ime">
-                            <button class="btn btn-primary w-100" onclick="save_reconstruction()">Shrani</button>
+                            <button class="btn btn-primary w-100" onclick="save_reconstruction()">Save</button>
                         </div>
                         <div class="py-2 px-3">
-                            Nastavi
+                            Load
                             <select name="load" id="load_recon" class="form-control">
                                 <option value="">None</option>
                             </select>
                         </div>
                         <div class="py-2 px-3">
-                            Nastavi z uuid
+                            Set with uuid
                             <input type="text" id="uuid_input" class="form-control" placeholder="uuid">
-                            <button class="btn btn-primary w-100 mt-2" onclick="set_uuid()">Nastavi</button>
+                            <button class="btn btn-primary w-100 mt-2" onclick="set_uuid()">Set</button>
                         </div>
                     </ul>
                 </div>
@@ -102,7 +102,7 @@
                             <i class="bi bi-download" style="font-size: 24px"></i>
                         </a>
                         <div class="dropdown-menu">
-                            <div class="px-3">Prenesi</div>
+                            <div class="px-3">Download</div>
                             <div class="dropdown-divider"></div>
                             <div class="row px-3">
                                 <div class="col-8 p-0"><a class="dropdown-item" id="download_ply" onclick="download_file()" data-file="ply">.ply</a></div>
@@ -244,8 +244,8 @@
                                         if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
                                         else $("#results").removeClass("bg-success").addClass("bg-warning");
                                         $("#views").text(data.estimated_views + "/" + data.views);
-                                        $("#tracks").text("Vozlišča: " + data.vertices);
-                                        $("#estimated_tracks").text("Ploskve: " + data.faces);
+                                        $("#tracks").text("Vertices: " + data.vertices);
+                                        $("#estimated_tracks").text("Faces: " + data.faces);
                                         clearInterval(myInterval);
                                         $("#spinner").hide();
                                     }
@@ -265,8 +265,8 @@
             }
             localStorage.removeItem("uuid");
             $("#views").text("0/0");
-            $("#vertices").text("Vozlišča: 0");
-            $("#faces").text("Ploskve: 0");
+            $("#vertices").text("Vertices: 0");
+            $("#faces").text("Faces: 0");
             $("#uuid").html("no uuid");
             get_file_statuses();
             show_instructions("#inst_move");
