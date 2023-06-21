@@ -49,41 +49,13 @@
                         </div>
                     </ul>
                 </div> -->
-                <div class="mt-4">
-                    <div class="dropdown m-auto">
-                        <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-camera" style="font-size: 24px;"></i>
-                            <span class="position-absolute top-0 end-10 translate-middle badge rounded-pill bg-light text-dark" id="focal_value">
-                                <span class="text-danger">no focal</span>
-                            </span>
-                        </button>
-                        <div class="dropdown-menu p-3" style="min-width: 200px; max-width: 200px;">
-                            <label>Focal</label>
-                            <input type="text" name="focal" class="form-control mb-2" id="focal" placeholder="4200">
-                            <button type="button" class="btn btn-primary w-100 position-relative" onclick="set_focal()">Save</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="dropdown m-auto">
-                    <a class="btn btn-primary rounded-pill mt-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-archive-fill" style="font-size: 24px;"></i></a>
-                    <ul class="dropdown-menu" style="min-width: 200px; max-width: 200px;">
-                        <div class="mb py-2 px-3">
-                            Save
-                            <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Ime">
-                            <button class="btn btn-primary w-100" onclick="save_reconstruction()">Save</button>
-                        </div>
-                        <div class="py-2 px-3">
-                            Load
-                            <select name="load" id="load_recon" class="form-control">
-                                <option value="">None</option>
-                            </select>
-                        </div>
-                        <div class="py-2 px-3">
-                            Set with uuid
-                            <input type="text" id="uuid_input" class="form-control" placeholder="uuid">
-                            <button class="btn btn-primary w-100 mt-2" onclick="set_uuid()">Set</button>
-                        </div>
-                    </ul>
+                <div class="mt-3">
+                    <a href="loading_ply.html" class="btn btn-primary rounded-pill position-relative" data-bs-toggle="modal" data-bs-target="#settings_modal">
+                        <i class="bi bi-gear-fill" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 end-10 translate-middle badge rounded-pill bg-light text-dark" id="focal_value">
+                            <span class="text-danger">no focal</span>
+                        </span>
+                    </a>
                 </div>
                 <div class="mt-2">
                     <a href="loading_ply.html" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#log_modal"><i class="bi bi-file-earmark-text-fill" style="font-size: 24px;"></i></a>
@@ -166,6 +138,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="settings_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb py-2 px-3">
+                        Save reconstruction
+                        <input type="text" name="name_input" id="name_input" class="form-control w-100 mb-2" placeholder="Ime">
+                        <button class="btn btn-primary w-100" onclick="save_reconstruction()">Save</button>
+                    </div>
+                    <div class="py-2 px-3">
+                        Load reconstruction
+                        <select name="load" id="load_recon" class="form-control">
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                    <div class="py-2 px-3">
+                        Set with uuid
+                        <input type="text" id="uuid_input" class="form-control" placeholder="uuid">
+                        <button class="btn btn-primary w-100 mt-2" onclick="set_uuid()">Set</button>
+                    </div>
+                    <div class="py-2 px-3">
+                        <label>Set focal length</label>
+                        <input type="text" name="focal" class="form-control mb-2" id="focal" placeholder="4200">
+                        <button type="button" class="btn btn-primary w-100 position-relative" onclick="set_focal()">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,8 +278,9 @@
                                         $("#estimated_tracks").text(`Faces: ${data.faces ? data.faces : 0}`);
                                         clearInterval(myInterval);
                                         $("#spinner").hide();
-                                        let log = data.log.replace(/\n/g, "<br>");
-                                        $("#log_modal .modal-body").append(`<p class="border">${log}</p>`);
+                                        console.log(data.output)
+                                        let log = data.output.replace(/\n/g, "<br>");
+                                        $("#log_modal .modal-body").append(`<p class="border p-2 rounded-4">${log}</p>`);
                                     }
                                 })
                             }, 3000)
