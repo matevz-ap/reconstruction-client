@@ -38,7 +38,6 @@
         })
         .then((text) => {
             let myInterval = setInterval(() => {
-                console.log(text)
                 fetch(endpoint + "/results/" + text, {headers: {"Bypass-Tunnel-Reminder": true}})
                 .then(response => response.json())
                 .then(data => {

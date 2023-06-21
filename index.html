@@ -49,9 +49,6 @@
                         </div>
                     </ul>
                 </div> -->
-                <div class="mt-2">
-                    <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false" onclick="generate_ptam()"><i class="bi bi-headset-vr" style="font-size: 24px;"></i></button>
-                </div>
                 <div class="mt-4">
                     <div class="dropdown m-auto">
                         <button class="btn btn-primary rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
@@ -88,6 +85,9 @@
                         </div>
                     </ul>
                 </div>
+                <div class="mt-2">
+                    <a href="loading_ply.html" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#log_modal"><i class="bi bi-file-earmark-text-fill" style="font-size: 24px;"></i></a>
+                </div>
             </div>
         </div>
         <div class="position-fixed bottom-0 w-100 mb-4">
@@ -106,7 +106,7 @@
                         <a class=" btn btn-primary dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-download" style="font-size: 24px"></i>
                         </a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" style="width: 200px">
                             <div class="px-3">Download</div>
                             <div class="dropdown-divider"></div>
                             <div class="row px-3">
@@ -122,8 +122,11 @@
                                 <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="downlaod_mvs()"><i class="bi bi-link-45deg"></i></a></div>
                             </div>
                             <div class="row px-3">
-                                <div class="col-8 p-0"><a class="dropdown-item" id="download_ptam" onclick="download_file()" data-file="ptam">ptam</a></div>
-                                <div class="col-4 p-0"><a class="dropdown-item text-primary" onclick="download_ptam()"><i class="bi bi-link-45deg"></i></a></div>
+                                <div class="col-6 p-0"><a class="dropdown-item" id="download_ptam" onclick="download_file()" data-file="ptam">ptam</a></div>
+                                <div class="col-3 p-0">
+                                    <a class="dropdown-item text-primary" onclick="generate_ptam()"><i class="bi bi-plus-circle-fill"></i></a>
+                                </div>
+                                <div class="col-3 p-0"><a class="dropdown-item text-primary" onclick="download_ptam()"><i class="bi bi-link-45deg"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -151,6 +154,20 @@
             <i class="bi bi-arrow-right h1"></i>
             <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
                 Keep moving around the object step by step taking photos
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="log_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Logs</p>
+                </div>
             </div>
         </div>
     </div>
@@ -229,9 +246,9 @@
                             $("#spinner2").hide();
                             localStorage.setItem('uuid', res);
                             $("#uuid").html(res);
+                            show_instructions("#inst_second");
                         }
                     });
-                    show_instructions("#inst_second");
                 }
                 else {
                     $("#spinner2").show();
@@ -252,11 +269,12 @@
                                     if (data.status == "finished") {
                                         if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
                                         else $("#results").removeClass("bg-success").addClass("bg-warning");
-                                        $("#views").text(data.estimated_views + "/" + data.views);
-                                        $("#tracks").text("Vertices: " + data.vertices);
-                                        $("#estimated_tracks").text("Faces: " + data.faces);
+                                        $("#views").text(`${data.estimated_views ? data.estimated_views : 0}/${data.views ? data.views : 0}`);
+                                        $("#tracks").text(`Vertices: ${data.vertices ? data.vertices : 0}`);
+                                        $("#estimated_tracks").text(`Faces: ${data.faces ? data.faces : 0}`);
                                         clearInterval(myInterval);
                                         $("#spinner").hide();
+                                        $("#log_modal .modal-body").append(`<p>${data.output}</p>`);
                                     }
                                 })
                             }, 3000)
