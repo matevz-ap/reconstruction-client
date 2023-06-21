@@ -166,7 +166,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Logs</p>
                 </div>
             </div>
         </div>
@@ -274,7 +273,8 @@
                                         $("#estimated_tracks").text(`Faces: ${data.faces ? data.faces : 0}`);
                                         clearInterval(myInterval);
                                         $("#spinner").hide();
-                                        $("#log_modal .modal-body").append(`<p>${data.output}</p>`);
+                                        let log = data.log.replace(/\n/g, "<br>");
+                                        $("#log_modal .modal-body").append(`<p class="border">${log}</p>`);
                                     }
                                 })
                             }, 3000)
