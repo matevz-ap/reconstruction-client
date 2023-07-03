@@ -105,6 +105,19 @@
                 </div>
             </div>
         </div>
+        <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions p-4 w-100" id="getting_focal" style="display: none">
+            Loading...
+            <div class="px-3 py-2 rounded-pill bg-warning bg-opacity-25">
+                Getting focal length
+            </div>
+        </div>
+        <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions p-4 w-100" id="no_focal" style="display: none">
+            <i class="bi bi-x-circle" style="font-size: 6em"></i>
+            <div class="px-3 py-2 rounded-pill bg-danger bg-opacity-25">
+                Could not get focal length. Set it manually
+            </div>
+            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#settings_modal">Set focal length</button>
+        </div>
         <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions p-4 w-100" id="inst_move">
             <i class="bi bi-fullscreen" style="font-size: 7em"></i>
             <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
@@ -343,6 +356,7 @@
         function set_focal() {
             localStorage.setItem("focal", $("#focal").val());
             $("#focal_value").html($("#focal").val());
+            show_instructions("#inst_move");
         }
 
         fetch(endpoint + "/online", {"headers": {"Bypass-Tunnel-Reminder": true}})
@@ -386,7 +400,34 @@
             get_file_statuses();
         });
 
-        
+        video.addEventListener('loadedmetadata', function() {
+            if(!localStorage.getItem("focal")) {
+                show_instructions("#getting_focal");
+                imageCapture.takePhoto()
+                .then(blob => {
+                    var data = new FormData();
+                    data.append('image', blob);
+                    $.ajax({
+                        type: "POST",
+                        url: endpoint + "/get_focal",
+                        headers: {"Bypass-Tunnel-Reminder": true},
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            data = JSON.parse(res);
+                            if (data.focal) {
+                                localStorage.setItem('focal', data.focal);
+                            }
+                            else {
+                                show_instructions("#no_focal");
+                            }
+                        }
+                    });
+                })
+                .catch(error => ChromeSamples.log(error));
+            }
+        });
     </script>
 </body>
 </html>
