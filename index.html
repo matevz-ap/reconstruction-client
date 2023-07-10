@@ -417,7 +417,8 @@
                         success: function(res) {
                             data = JSON.parse(res);
                             if (data.focal) {
-                                localStorage.setItem('focal', data.focal);
+                                $("#focal").val(data.focal)
+                                set_focal()
                             }
                             else {
                                 show_instructions("#no_focal");
