@@ -13,6 +13,12 @@
     <a href="index.html" class="btn btn-primary rounded-pill btn-lg position-absolute begin-0 m-4 px-4" style="top: 32px">
         <i class="bi bi-arrow-left-circle-fill" style="font-size: 70px;"></i>
     </a>
+    <div class="position-fixed" style="right: 20px; top:20px">
+        <div class="spinner-border me-4 text-white" id="refine_spinner" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <button class="btn btn-primary btn-lg" id="refine_button">Refine mesh</button>
+    </div>
     <div class="progress fixed-bottom" style="height: 5vh">
         <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
@@ -94,11 +100,30 @@
             },
             (xhr) => {
                 console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
+                $(".progress").hide();
             },
             (err) => {
                 console.error('An error happened while loading the PLY file:', err);
             }
         );
+
+        $("#refine_button").click(function() {
+            fetch(endpoint + "/" + uuid + "/refine", {headers: {"Bypass-Tunnel-Reminder": true}})
+            .then(response => response.text())
+            .then(res => {
+                $("#refine_spinner").show();
+                let myInterval = setInterval(() => {
+                    fetch(endpoint + "/results/" + res, {headers: {"Bypass-Tunnel-Reminder": true}})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.finished) {
+                            clearInterval(myInterval);
+                            location.reload();
+                        }
+                    })
+                }, 3000)
+            })
+        })
 
         window.addEventListener('resize', onWindowResize, false)
         function onWindowResize() {
