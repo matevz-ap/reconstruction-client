@@ -118,7 +118,7 @@
             </div>
             <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#settings_modal">Set focal length</button>
         </div>
-        <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions p-4 w-100" id="inst_move">
+        <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions p-4 w-100" id="inst_move" >
             <i class="bi bi-fullscreen" style="font-size: 7em"></i>
             <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
                 Click on the camera icon to take first photo
@@ -126,19 +126,24 @@
         </div>
         <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions p-4 w-100" id="inst_second" style="display: none">
             <div class="text-center">
-                <i class="bi bi-camera h1"></i>
+                <span style="font-size: 4em; margin-right: 3em;">/</span>
+                <span style="font-size: 4em;">\</span>
             </div>
-            <i class="bi bi-arrow-left h1 me-5"></i>
-            <i class="bi bi-arrow-right h1"></i>
+            <i class="bi bi-arrow-left h1" style="margin-right: 4em;"></i>
+            <i class="bi bi-arrow-right h1"></i>    
             <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
-                Move left or right one step and take a photo
+                Move left or right one step and take a photo. Keep the object in the center of the screen
             </div>
         </div>
         <div class="position-absolute top-50 start-50 translate-middle text-white text-center instructions p-4 w-100" id="inst_keep" style="display: none">
-            <i class="bi bi-arrow-left h1 me-5"></i>
+            <div class="text-center">
+                <span style="font-size: 4em; margin-right: 3em;">/</span>
+                <span style="font-size: 4em;">\</span>
+            </div>
+            <i class="bi bi-arrow-left h1" style="margin-right: 4em;"></i>
             <i class="bi bi-arrow-right h1"></i>
             <div class="px-3 py-2 rounded-pill bg-dark bg-opacity-25">
-                Keep moving around the object step by step taking photos
+                Keep moving around the object step by step taking photos. Try to keep the object in the center of the screen
             </div>
         </div>
     </div>
