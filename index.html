@@ -290,8 +290,8 @@
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.status == "finished") {
-                                        if (data.success) $("#results").removeClass("bg-warning").addClass("bg-success");
-                                        else $("#results").removeClass("bg-success").addClass("bg-warning");
+                                        if (data.success) $("#results").removeClass("bg-white bg-warning").addClass("bg-success");
+                                        else $("#results").removeClass("bg-white bg-success").addClass("bg-warning");
                                         $("#views").text(`${data.estimated_views ? data.estimated_views : 0}/${data.views ? data.views : 0}`);
                                         $("#tracks").text(`Vertices: ${data.vertices ? data.vertices : 0}`);
                                         $("#estimated_tracks").text(`Faces: ${data.faces ? data.faces : 0}`);
